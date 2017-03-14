@@ -29,3 +29,7 @@ MongoClient.connect(url, function(error, db) {
   assert.equal(null, err);
   console.log("I'm connected to the database!")
 });
+
+client.on('ready', () => {
+  console.log("Bot is online!");
+})
