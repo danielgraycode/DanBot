@@ -24,6 +24,7 @@ const assert = require("assert");
 const url = 'mongodb://danielserver.local:27017/DanBot';
 const client = new discord.Client();
 const config = require("./config.json")
+const version = "V1.0.0"
 
 MongoClient.connect(url, function(error, db) {
   assert.equal(null, err);
@@ -33,3 +34,22 @@ MongoClient.connect(url, function(error, db) {
 client.on('ready', () => {
   console.log("Bot is online!");
 })
+
+client.on('message', (message) => {
+  let args = message.content.split(" ").slice(1);
+  if (message.content == config.prefix + "areyoualive?") {
+    message.channel.sendMessage("", {
+      embed: {
+        title: "Am I alive?",
+        color: 0x06DF00,
+        description: "Yes, I am still alive!",
+        footer: {
+          iconURL: client.avatarURL,
+          text: "DanBot, " + version
+        },
+      };
+    });
+  };
+});
+
+bot.login(config.Token);
