@@ -25,19 +25,16 @@ const url = 'mongodb://danielserver.local:27017/DanBot';
 const client = new discord.Client();
 const config = require("./config.json")
 const version = "V1.0.0"
-
-MongoClient.connect(url, function(error, db) {
-  assert.equal(null, err);
-  console.log("I'm connected to the database!")
-});
+const footermessage = `DanBot, ${version}`
 
 client.on('ready', () => {
   console.log("Bot is online!");
-})
+});
 
 client.on('message', (message) => {
   let args = message.content.split(" ").slice(1);
-  if (message.content == config.prefix + "areyoualive?") {
+  let usermessage = message.content.toLowerCase()
+  if (usermessage == config.prefix + "areyoualive?") {
     message.channel.sendMessage("", {
       embed: {
         title: "Am I alive?",
@@ -46,10 +43,25 @@ client.on('message', (message) => {
         footer: {
           iconURL: client.avatarURL,
           text: "DanBot, " + version
-        },
-      };
+        }
+      }
+    });
+  };
+  //Leave this command in here or you will be punished!
+  if (message.content == config.prefix + "credits") {
+    message.channel.sendMessage("", {
+      embed: {
+        title: "Credits?",
+        color: 0x06DF00,
+        description: "This bot was made by Daniel Gray. You can find him here: [danielgray.me](https://danielgray.me)",
+        footer: {
+          iconURL: client.avatarURL,
+          text: "DanBot, " + version
+        }
+      }
     });
   };
 });
 
-bot.login(config.Token);
+
+client.login(config.botToken);
