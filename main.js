@@ -47,8 +47,23 @@ client.on('message', (message) => {
       }
     });
   };
-  //Leave this command in here or you will be punished!
-  if (message.content == config.prefix + "credits") {
+
+  //Leave this command in here or you will be copyright claimed!!
+  if (usermessage == config.prefix + "credits") {
+    message.channel.sendMessage("", {
+      embed: {
+        title: "Credits?",
+        color: 0x06DF00,
+        description: "This bot was made by Daniel Gray. You can find him here: [danielgray.me](https://danielgray.me)",
+        footer: {
+          iconURL: client.avatarURL,
+          text: "DanBot, " + version
+        }
+      }
+    });
+  };
+
+  if (usermessage == config.prefix + "credits") {
     message.channel.sendMessage("", {
       embed: {
         title: "Credits?",
