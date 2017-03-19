@@ -21,11 +21,17 @@ SOFTWARE.
 const discord = require("discord.js");
 const MongoClient = require('mongodb').MongoClient;
 const assert = require("assert");
+const moment = require("moment");
+require("moment-duration-format");
 const url = 'mongodb://danielserver.local:27017/DanBot';
 const client = new discord.Client();
 const config = require("./config.json")
 const version = "V1.0.0"
 const footermessage = `DanBot, ${version}`
+
+process.on("unhandledRejection", err => {
+    console.error("Uncaught Promise Error: \n" + err.stack);
+});
 
 client.on('ready', () => {
   console.log("Bot is online!");
@@ -34,6 +40,7 @@ client.on('ready', () => {
 client.on('message', (message) => {
   let args = message.content.split(" ").slice(1);
   let usermessage = message.content.toLowerCase()
+  if (message.author.bot) return;
   if (usermessage == config.prefix + "areyoualive?") {
     message.channel.sendMessage("", {
       embed: {
@@ -76,6 +83,26 @@ client.on('message', (message) => {
       }
     });
   };
+
+  if(usermessage == config.prefix + "stats") {
+    message.channel.sendMessage("", {
+      title: "Statistics",
+      color: 0x06DF00,
+      fields: [{
+        name: 'Uptime',
+        value: `${moment.duration(client.uptime).format("D [days], H [hrs], M[mins], s [secs]")}`
+      }, {
+        name: "Discord API ver:",
+        value: `${discord.version}`
+      }, {
+        name: "Servers:",
+        value: `I'm on ${client.guilds.size}!`
+      }, {
+        name: "Memory Usage:",
+        value: `I'm currently using ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`
+      }],
+    })
+  }
 });
 
 
