@@ -69,7 +69,7 @@ client.on('message', (message) => {
 
   //A bot is not a bot without an eval command. BE CAREFUL WITH THIS
         if (message.author.id === config.ownerid) {
-        if (usermessage.startsWith(config.prefix + "eval")) {
+        if (usermessage.startsWith(config.ownerPrefix + "eval")) {
             try {
                 var code = args.join(" ");
                 var evaled = eval(code);
@@ -110,20 +110,6 @@ client.on('message', (message) => {
         footer: {
           icon_url: client.avatarURL,
           text: "DanBot, " + version
-        }
-      }
-    });
-  };
-
-  if (usermessage == config.prefix + "credits") {
-    message.channel.sendMessage("", {
-      embed: {
-        title: "Credits?",
-        color: 0x06DF00,
-        description: "This bot was made by Daniel Gray. You can find him here: [danielgray.me](https://danielgray.me)",
-        footer: {
-          icon_url: client.avatarURL,
-          text: footermessage
         }
       }
     });
@@ -202,7 +188,36 @@ client.on('message', (message) => {
       }
     }
 
-
+    if (usermessage == config.prefix + "help") {
+      message.channel.SendMessage("", {
+        embed: {
+          color: 0x06DF00,
+          title: "DanBot- Help!",
+          description: "Here are the commands!",
+          fields: [{ 
+            name: "/db_eval",
+            value: "A special owner only command which lets him do magical stuff :)"
+          }, { 
+            name: "/db profile @ <person>",
+            value: "Gives user info on a specified person."
+            }, {
+            name: "/db stats",
+            value: "Gives current starts on the bot, things like RAM usage, server count and more!"
+            }, {
+            name: "/db credits",
+            value: "A simple command that shows the developer of DanBot and where you can find him."
+            }, {
+            name: "/db areyoualive?",
+            value: "Are you alive?? To be, or not to be, that is the question."
+            }
+          ],
+          footer: {
+            icon_url: client.avatarURL,
+            text: footermessage
+          }
+        }
+      })
+    }
   });
 
 
