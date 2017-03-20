@@ -1,6 +1,7 @@
 {
   "botToken": "Token",
   "prefix": "/db",
-  "ownerPrefix": "/db_",
-  "ownerid": "YOURIDHERE"
+  "specialPrefix": "/db_",
+  "ownerid": "YOURIDHERE",
+  "googleapitoken": "APITOKENHERE"
 }
