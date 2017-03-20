@@ -48,7 +48,7 @@ client.on('message', (message) => {
         color: 0x06DF00,
         description: "Yes, I am still alive!",
         footer: {
-          iconURL: client.avatarURL,
+          icon_url: client.avatarURL,
           text: "DanBot, " + version
         }
       }
@@ -63,7 +63,7 @@ client.on('message', (message) => {
         color: 0x06DF00,
         description: "This bot was made by Daniel Gray. You can find him here: [danielgray.me](https://danielgray.me)",
         footer: {
-          iconURL: client.avatarURL,
+          icon_url: client.avatarURL,
           text: "DanBot, " + version
         }
       }
@@ -77,7 +77,7 @@ client.on('message', (message) => {
         color: 0x06DF00,
         description: "This bot was made by Daniel Gray. You can find him here: [danielgray.me](https://danielgray.me)",
         footer: {
-          iconURL: client.avatarURL,
+          icon_url: client.avatarURL,
           text: "DanBot, " + version
         }
       }
@@ -88,10 +88,6 @@ client.on('message', (message) => {
         message.channel.sendMessage("", {
             embed: {
                 color: 3447003,
-                author: {
-                    name: client.user.username,
-                    icon_url: client.user.avatarURL
-                },
                 title: 'Stats',
                 description: 'Here are the stats for DanBot!',
                 fields: [{
@@ -117,6 +113,49 @@ client.on('message', (message) => {
             }
         });
     };
+
+    if (usermessage.startsWith(config.prefix + "profile")) {
+      let usr;
+      if(args.length == 0) {
+        usr = message.author;
+      } else if(message.mentions.users.size == 0) {
+        message.channel.sendMessage("", {
+          embed: {
+            color: 0xff0000,
+            title: "Error!",
+            description: "You didn't mention a user!",
+            footer: {
+              icon_url: client.user.avatarURL,
+              text: footermessage
+            }
+          }
+        })
+      } else { usr = message.mentions.users.first();}
+      if(usr != undefined) {
+        message.channel.sendMessage("", {
+          embed: {
+            title: "User info: " + usr.username,
+            color: 0x06DF00,
+            fields: [{
+              name: "Username",
+              value: `${usr.username}#${usr.discriminator}`
+            }, {
+              name: "Joined Discord: ",
+              value: `${usr.createdAt}`
+            }],
+            footer: {
+              icon_url: client.user.avatarURL,
+              text: footermessage
+            },
+            thumbnail: {
+              height: 100,
+              width: 100,
+              url: usr.avatarURL
+            }
+          }
+        })
+      }
+    }
   });
 
 
