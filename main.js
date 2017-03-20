@@ -84,26 +84,40 @@ client.on('message', (message) => {
     });
   };
 
-  if(usermessage == config.prefix + "stats") {
-    message.channel.sendMessage("", {
-      title: "Statistics",
-      color: 0x06DF00,
-      fields: [{
-        name: 'Uptime',
-        value: `${moment.duration(client.uptime).format("D [days], H [hrs], M[mins], s [secs]")}`
-      }, {
-        name: "Discord API ver:",
-        value: `${discord.version}`
-      }, {
-        name: "Servers:",
-        value: `I'm on ${client.guilds.size}!`
-      }, {
-        name: "Memory Usage:",
-        value: `I'm currently using ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`
-      }],
-    })
-  }
-});
+ if (usermessage == config.prefix + "stats") {
+        message.channel.sendMessage("", {
+            embed: {
+                color: 3447003,
+                author: {
+                    name: client.user.username,
+                    icon_url: client.user.avatarURL
+                },
+                title: 'Stats',
+                description: 'Here are the stats for DanBot!',
+                fields: [{
+                    name: 'Uptime',
+                    value: `${moment.duration(client.uptime).format("D [days], H [hrs], m [mins], s [secs]")}`
+                }, {
+                    name: 'I am in: ',
+                    value: `${client.guilds.size} Servers`
+                }, {
+                    name: 'Serving: ',
+                    value: `${client.users.size} Users!`
+                }, {
+                    name: 'I am currently using: ',
+                    value: `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`
+                }, {
+                    name: 'Discord.js Version',
+                    value: `${discord.version}`
+                }],
+                footer: {
+                    icon_url: client.user.avatarURL,
+                    text: footermessage
+                }
+            }
+        });
+    };
+  });
 
 
 client.login(config.botToken);
