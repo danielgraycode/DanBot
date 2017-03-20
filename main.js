@@ -17,7 +17,7 @@ SOFTWARE.
 */
 
 
-
+//Yes its a lot but lets load all our modules. If it doesn't work, try installing the part in the require("HERE") part using npm install PACAKAGENAME --save
 const discord = require("discord.js");
 const MongoClient = require('mongodb').MongoClient;
 const assert = require("assert");
@@ -29,14 +29,26 @@ const config = require("./config.json")
 const version = "V1.0.0"
 const footermessage = `DanBot, ${version}`
 
+//Removes all @everyones from the text inputted when called.
+function clean(text) {
+    if (typeof(text) === "string")
+        return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
+    else
+        return text;
+}
+
+//Thanks I like to catch errors
 process.on("unhandledRejection", err => {
     console.error("Uncaught Promise Error: \n" + err.stack);
 });
 
+//To make sure stuff works
 client.on('ready', () => {
   console.log("Bot is online!");
 });
 
+
+//And lets get rigghthtttt intoooo theeeeeeee MESSAGES
 client.on('message', (message) => {
   let args = message.content.split(" ").slice(1);
   let usermessage = message.content.toLowerCase()
@@ -54,6 +66,39 @@ client.on('message', (message) => {
       }
     });
   };
+
+  //A bot is not a bot without an eval command. BE CAREFUL WITH THIS
+        if (message.author.id === config.ownerid) {
+        if (usermessage.startsWith(config.prefix + "eval")) {
+            try {
+                var code = args.join(" ");
+                var evaled = eval(code);
+
+                if (typeof evaled !== "string")
+                    evaled = require("util").inspect(evaled);
+
+                message.channel.sendMessage("", {
+                  embed: {
+                    title: "Eval",
+                    color: 0x06DF00,
+                    fields: [{
+                      name: "Input",
+                      value: message.content
+                    }, {
+                      name: "Output",
+                      value: evaled
+                    }],
+                    footer: {
+                      icon_url: client.avatarURL,
+                      text: footermessage
+                    }
+                  }
+                });
+            } catch (err) {
+                message.channel.sendMessage(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+            }
+        }
+      }
 
   //Leave this command in here or you will be copyright claimed!!
   if (usermessage == config.prefix + "credits") {
@@ -78,7 +123,7 @@ client.on('message', (message) => {
         description: "This bot was made by Daniel Gray. You can find him here: [danielgray.me](https://danielgray.me)",
         footer: {
           icon_url: client.avatarURL,
-          text: "DanBot, " + version
+          text: footermessage
         }
       }
     });
@@ -156,6 +201,8 @@ client.on('message', (message) => {
         })
       }
     }
+
+
   });
 
 

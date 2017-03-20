@@ -1,5 +1,6 @@
 {
   "botToken": "Token",
-  "prefix": "//",
+  "prefix": "/db",
+  "ownerPrefix": "/db_",
   "ownerid": "YOURIDHERE"
 }
