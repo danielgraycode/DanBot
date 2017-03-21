@@ -45,8 +45,8 @@ process.on("unhandledRejection", err => {
 //To make sure stuff works
 client.on('ready', () => {
   console.log("Bot is online!");
+  setInterval(function(){client.user.setGame(`/db help |I'm serving ${client.guilds.size} guilds!`, `https://github.com/danielgraycode/DanBot`); }, 500);
 });
-
 
 //And lets get rigghthtttt intoooo theeeeeeee MESSAGES
 client.on('message', (message) => {
