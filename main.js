@@ -188,25 +188,7 @@ client.on('message', (message) => {
       }
     }
 
-    if (usermessage.startsWith(config.specialPrefix + "gsearch")) {
-      let tosearch = message.content.split(" ").slice(1);
-      request(`https://www.googleapis.com/customsearch/v1?key=${config.googleapitoken}&q=${tosearch.join("+")}&alt=json`, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-          let results = JSON.parse(body)
-          message.channel.SendMessage("", {
-            embed: {
-              title: results.items[0].title,
-              url: kek.items[0].link,
-              description: kek.items[0].snippet,
-              footer: {
-                icon_url: client.avatarURL,
-                text: `Search provided by Google. ${footermessage}`
-              }
-            }
-          })
-        }
-      })
-    }
+
 
     if (usermessage == config.prefix + "help") {
       message.channel.SendMessage("", {
