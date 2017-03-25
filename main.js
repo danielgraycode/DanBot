@@ -191,7 +191,7 @@ client.on('message', (message) => {
 
 
     if (usermessage == config.prefix + "help") {
-      message.channel.SendMessage("", {
+      message.channel.sendMessage("", {
         embed: {
           color: 0x06DF00,
           title: "DanBot- Help!",
